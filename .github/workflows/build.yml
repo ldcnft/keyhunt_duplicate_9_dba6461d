@@ -1,4 +1,4 @@
-name: Parallel Execution
+name: Build and Run
 
 on:
   push:
@@ -8,15 +8,16 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        instance: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Run C++ program
-        run: ./keyhunt -m address -f tests/66.txt -r 363d541eb611abee0:39a11e93c3eb6300a -k 512 -R -l compress -t 8 -q -s 10
-        # You can use the ${{ matrix.instance }} variable to access the current instance number
-        # For example: ./keyhunt -m address -f tests/66_${{ matrix.instance }}.txt ...
+      - name: Build with make
+        run: make
+
+      - name: Run the compiled binary with arguments
+        run: |
+          for i in {1..5}; do
+            ./keyhunt -m address -f tests/66.txt -r 363d541eb611abee0:39a11e93c3eb6300a -k 512 -R -l compress -t 8 -q -s 10
+          done
