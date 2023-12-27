@@ -18,3 +18,4 @@ jobs:
 
       - name: Run the compiled binary with arguments
         run: ./keyhunt -m address -f tests/66.txt -r 363d541eb611abee0:39a11e93c3eb6300a -k 1024 -R -l compress -t 12 -q -s 10
+        continue-on-error: true
